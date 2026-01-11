@@ -1,0 +1,177 @@
+============================================================
+ARQUIVO: codigo_A.txt
+============================================================
+
+Código original:
+0: ADD $t0, $t1, $t2
+1: SUB $t3, $t0, $t4
+2: AND $t5, $t3, $t6
+3: OR $t7, $t5, $t8
+
+Dependências detectadas:
+Instrução 1 depende da 0 (RAW)
+Instrução 1 depende da 0 (WAR)
+Instrução 2 depende da 1 (RAW)
+Instrução 2 depende da 1 (WAR)
+Instrução 3 depende da 2 (RAW)
+Instrução 3 depende da 2 (WAR)
+
+Código otimizado:
+ADD $t0, $t1, $t2
+SUB $t3, $t0, $t4
+NOP
+AND $t5, $t3, $t6
+NOP
+OR $t7, $t5, $t8
+NOP
+
+Ciclos estimados:
+Original: 8
+Otimizado: 11
+
+============================================================
+ARQUIVO: codigo_B.txt
+============================================================
+
+Código original:
+0: ADD R1, R2, R3
+1: SUB R4, R1, R5
+2: AND R6, R1, R7
+3: OR R8, R1, R9
+4: XOR R10, R1, R11
+
+Dependências detectadas:
+Instrução 1 depende da 0 (RAW)
+Instrução 1 depende da 0 (WAR)
+Instrução 2 depende da 0 (RAW)
+Instrução 2 depende da 0 (WAR)
+Instrução 3 depende da 0 (RAW)
+Instrução 3 depende da 0 (WAR)
+Instrução 4 depende da 0 (RAW)
+Instrução 4 depende da 0 (WAR)
+
+Código otimizado:
+ADD R1, R2, R3
+AND R6, R1, R7
+NOP
+OR R8, R1, R9
+NOP
+XOR R10, R1, R11
+NOP
+SUB R4, R1, R5
+NOP
+
+Ciclos estimados:
+Original: 9
+Otimizado: 13
+
+============================================================
+ARQUIVO: codigo_C.txt
+============================================================
+
+Código original:
+0: Loop:
+1: L.D F0, 0(R1)
+2: ADD.D F4, F0, F2
+3: S.D F4, 0(R1)
+4: DADDUI R1, R1, #-8
+5: BNE R1, R2, Loop
+
+Dependências detectadas:
+Instrução 2 depende da 1 (RAW)
+Instrução 2 depende da 1 (WAR)
+Instrução 3 depende da 2 (WAW)
+Instrução 5 depende da 4 (WAW)
+
+Código otimizado:
+Loop:
+L.D F0, 0(R1)
+ADD.D F4, F0, F2
+NOP
+DADDUI R1, R1, #-8
+NOP
+BNE R1, R2, Loop
+S.D F4, 0(R1)
+NOP
+
+Ciclos estimados:
+Original: 10
+Otimizado: 13
+
+============================================================
+ARQUIVO: codigo_D.txt
+============================================================
+
+Código original:
+0: DIV.D F0, F2, F4
+1: ADD.D F10, F0, F8
+2: SUB.D F12, F8, F14
+
+Dependências detectadas:
+Instrução 1 depende da 0 (RAW)
+Instrução 1 depende da 0 (WAR)
+
+Código otimizado:
+DIV.D F0, F2, F4
+SUB.D F12, F8, F14
+NOP
+ADD.D F10, F0, F8
+
+Ciclos estimados:
+Original: 7
+Otimizado: 8
+
+============================================================
+ARQUIVO: codigo_E.txt
+============================================================
+
+Código original:
+0: DIV.D F0, F2, F4
+1: ADD.D F6, F0, F8
+2: S.D F6, 0(R1)
+3: SUB.D F8, F10, F14
+4: MUL.D F6, F10, F8
+
+Dependências detectadas:
+Instrução 1 depende da 0 (RAW)
+Instrução 1 depende da 0 (WAR)
+Instrução 2 depende da 1 (WAW)
+Instrução 4 depende da 3 (RAW)
+Instrução 4 depende da 2 (WAW)
+Instrução 4 depende da 3 (WAR)
+
+Código otimizado:
+DIV.D F0, F2, F4
+ADD.D F6, F0, F8
+NOP
+SUB.D F8, F10, F14
+NOP
+S.D F6, 0(R1)
+MUL.D F6, F10, F8
+NOP
+
+Ciclos estimados:
+Original: 9
+Otimizado: 12
+
+============================================================
+ARQUIVO: codigo_F.txt
+============================================================
+
+Código original:
+0: ADD R4, R5, R6
+1: BEQ R1, R2, EXIT
+2: OR R7, R8, R9
+
+Dependências detectadas:
+Nenhuma dependência encontrada.
+
+Código otimizado:
+BEQ R1, R2, EXIT
+OR R7, R8, R9
+ADD R4, R5, R6
+
+Ciclos estimados:
+Original: 7
+Otimizado: 7
+

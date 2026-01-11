@@ -1,0 +1,3 @@
+ADD R4, R5, R6
+BEQ R1, R2, EXIT
+OR R7, R8, R9
