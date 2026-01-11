@@ -1,0 +1,4 @@
+ADD $t0, $t1, $t2
+SUB $t3, $t0, $t4
+AND $t5, $t3, $t6
+OR $t7, $t5, $t8
